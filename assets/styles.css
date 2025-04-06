@@ -59,6 +59,10 @@ body {
         color: #0382f8;
     }
 
+    .undefined, .object {
+        color: #999;
+    }
+
     pre {
         margin: 2px 0;
     }

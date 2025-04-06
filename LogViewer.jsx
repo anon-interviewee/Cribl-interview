@@ -1,32 +1,5 @@
 import * as React from "react";
-
-async function fetchLogs(url, callback) {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-
-  const stream = response.body.pipeThrough(new TextDecoderStream());
-
-  let complete = false;
-  let buffer = "";
-
-  for await (const stringChunk of stream) {
-    const result = [];
-    buffer += stringChunk;
-
-    for (var i = 0, last = 0; i < buffer.length; i++) {
-      if (buffer[i] === "\n") {
-        const line = buffer.substring(last, i);
-        last = i + 1;
-        result.push(JSON.parse(line));
-      }
-    }
-
-    buffer = buffer.substring(last);
-    callback(result);
-  }
-}
+import { fetchLogs, prettyPrint } from "./utils.jsx";
 
 export const LogViewer = () => {
   const [logs, setLogs] = React.useState([]);
@@ -52,29 +25,6 @@ export const LogViewer = () => {
       onLines
     );
   }, []);
-
-  const prettyPrint = (json, indent = 2) => {
-    if (Array.isArray(json)) {
-      return <>
-        {"[\n"}
-        {json.map((item) => <>
-          {"".padStart(indent, " ")}
-          {prettyPrint(item, indent + 2)}
-        </>).reduce((prev, curr) => prev === null ? [curr] : [prev, ',\n', curr], null)}
-        {"\n" + "".padEnd(indent - 2, " ") + "]"}
-      </>;
-    } else if (typeof json === "object") {
-      return <>{"{\n"}
-        {Object.keys(json).map((key) => <>
-          {"".padStart(indent, " ")}
-          <span className="key">"{key}"</span>: {prettyPrint(json[key], indent + 2)}
-          {"\n"}
-        </>)}
-        {"".padStart(indent - 2, " ") + "}"}</>;
-    } else {
-      return <span className={typeof json}>{typeof json === "string" ? `"${json.replaceAll("\n", "\\n")}"` : json}</span>
-    }
-  };
 
   return (
     <div className="grid">
