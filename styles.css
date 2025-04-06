@@ -1,0 +1,36 @@
+.grid {
+    display: grid;
+    grid-template-columns: min-content min-content 1fr;
+    grid-gap: 0;
+    width: 100%;
+}
+
+.grid > * {
+    padding: 2px 4px;
+}
+
+.row {
+    display: contents;
+    font-family: monospace;
+    white-space: nowrap;
+}
+
+.header {
+    display: contents;
+}
+
+.content {
+    grid-column: 1 / span 3;
+}
+
+.content pre {
+    margin: 2px 0;
+}
+
+.row *, .header * {
+    padding: 4px 6px;
+}
+
+.row:nth-child(odd) *, .header * {
+    background-color: #EEE;
+}
