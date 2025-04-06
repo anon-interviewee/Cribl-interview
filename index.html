@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+    <script type="importmap">
+        {
+          "imports": {
+            "react": "https://esm.sh/react",
+            "react-dom/client": "https://esm.sh/react-dom/client"
+          }
+        }
+      </script>
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', async () => {
+          try {
+            const registration = await navigator.serviceWorker.register('/service-worker.js');
+            console.log('Service worker registered:', registration);
+          } catch (error) {
+            console.error('Service worker registration failed:', error);
+          }
+        });
+      }
+    </script>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel" src="App.jsx" data-type="module" data-presets="react"></script>
+</body>
+</html>
