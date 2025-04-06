@@ -16,16 +16,26 @@
           try {
             const registration = await navigator.serviceWorker.register('/service-worker.js');
             console.log('Service worker registered:', registration);
+            
+            // Load the App.jsx file after the service worker is registered, otherwise first-time loads may fail
+            // because it won't intercept .jsx requests made before registration.
+            const script = document.createElement("script");
+            script.src = "App.jsx";
+            script.setAttribute("data-type", "module");
+            script.setAttribute("data-presets", "react");
+            script.setAttribute("type", "text/babel");
+            document.getElementsByTagName("head")[0].appendChild(script);
+            window.dispatchEvent(new Event('DOMContentLoaded'));
           } catch (error) {
             console.error('Service worker registration failed:', error);
           }
         });
       }
     </script>
+    
 </head>
 <body>
   <div id="root"></div>
   <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
-  <script type="text/babel" src="App.jsx" data-type="module" data-presets="react"></script>
 </body>
 </html>
