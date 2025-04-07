@@ -1,6 +1,6 @@
+import fetch from 'isomorphic-fetch';
 import { render } from "@testing-library/react";
-import { prettyPrint } from "./utils";
-import * as React from "react";
+import { fetchLogs, prettyPrint } from "./utils";
 
 it("prints json with correct classes and indentation", () => {  
   const pretty = prettyPrint(
@@ -42,3 +42,13 @@ it("prints json with correct classes and indentation", () => {
 }"
 `);
 });
+
+it("Downloads the log in chunks correctly", async () => {
+  const url = "https://s3.amazonaws.com/io.cribl.c021.takehome/cribl.log";
+  
+  let expected = await (await fetch(url)).text();
+  let actual = '';
+  await fetchLogs(url, (data) => actualLogs += data);
+
+  expect(expected).toEqual(actual)
+})

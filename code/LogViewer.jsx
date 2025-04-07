@@ -16,11 +16,11 @@ export const LogViewer = () => {
   };
 
   const onLines = React.useCallback((lines) => {
-    setLogs(logs.concat(lines));
+    setLogs((prev) => prev.concat(lines));
   }, []);
 
-  React.useEffect(() => {
-    fetchLogs(
+  React.useEffect(async () => {
+    await fetchLogs(
       "https://s3.amazonaws.com/io.cribl.c021.takehome/cribl.log",
       onLines
     );
