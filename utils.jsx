@@ -1,5 +1,10 @@
 import * as React from "react";
 
+/**
+ * Retrieves a Newline delimited JSON file from a URL and streams it to a callback
+ * @param {*} url 
+ * @param {*} callback a function that receives an array of json objects
+ */
 export async function fetchLogs(url, callback) {
   const response = await fetch(url);
   if (!response.ok) {
@@ -26,6 +31,14 @@ export async function fetchLogs(url, callback) {
   }
 }
 
+/**
+ * Converts a JSON object into a set of React elements that displays it in a human readable format.
+ * It is a recursive function, so the initial caller should generally only pass in the json object.
+ * @param {*} json 
+ * @param {*} indent 
+ * @param {*} index 
+ * @returns 
+ */
 export const prettyPrint = (json, indent = 2, index = 0) => {
   if (Array.isArray(json)) {
     return [
