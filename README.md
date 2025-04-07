@@ -10,6 +10,9 @@ As an exercise, this application doesn't have a static build step while still us
 using the features of babel standalone and a service worker to intercept requests to jsx files so they can be
 transpiled appropriately with appropriate MIME-type replaced in the response.
 
+If there were also more time, I'd want to explore interactivity performance as it's quite bad when rendering 50K rows.
+Virtualization isn't necessarily straightforward depending on what UX compromises are suitable.
+
 # Testing
 
 Test can be run using `npm test`.

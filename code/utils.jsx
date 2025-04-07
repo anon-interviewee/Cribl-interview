@@ -28,8 +28,6 @@ export async function fetchLogs(url, callback) {
 
     buffer = buffer.substring(last);
     callback(result);
-
-    console.log(result.length);
   }
 }
 

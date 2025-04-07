@@ -19,8 +19,8 @@ export const LogViewer = () => {
     setLogs((prev) => prev.concat(lines));
   }, []);
 
-  React.useEffect(async () => {
-    await fetchLogs(
+  React.useEffect(() => {
+    fetchLogs(
       "https://s3.amazonaws.com/io.cribl.c021.takehome/cribl.log",
       onLines
     );
@@ -37,21 +37,18 @@ export const LogViewer = () => {
       {logs.map((log, i) => {
         if (openRows.has(i)) {
           return (
-            <>
+            <React.Fragment key={i}>
               <div className="row no-border">
                 <div className="caret" onClick={() => onToggleRow(i)}><span className="open">&gt;</span></div>
                 <div key={i + "time"}>{new Date(log._time).toISOString()}</div>
                 <div key={i + "event"}></div>
               </div>
-              {/* p tag here to avoid reseting the nth-of-type count */}
-              <p className="content">
-                <pre>{prettyPrint(log)}</pre>
-              </p>
-            </>
+              <pre className="content">{prettyPrint(log)}</pre>
+            </React.Fragment>
           );
         } else {
           return (
-            <div className="row">
+            <div className="row" key={i}>
               <div className="caret" onClick={() => onToggleRow(i)}>&gt;</div>
               <div key={i + "time"}>{new Date(log._time).toISOString()}</div>
               <div key={i + "event"}>{JSON.stringify(log)}</div>
