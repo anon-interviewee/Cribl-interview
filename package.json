@@ -4,12 +4,25 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "ws --spa ./index.html"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "local-web-server": "^5.4.0"
+  },
+  "devDependencies": {
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "jest": "29.7.0",
+    "jest-environment-jsdom": "29.7.0",
+    "jest-snapshot-serializer-ansi": "2.2.1",
+    "@babel/core": "7.26.10",
+    "@babel/preset-env": "7.26.9",
+    "@babel/preset-react": "7.26.3",
+    "babel-jest": "29.7.0",
+    "@testing-library/dom": "10.4.0",
+    "@testing-library/react": "16.3.0"
   }
 }

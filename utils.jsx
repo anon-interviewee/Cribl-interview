@@ -26,25 +26,53 @@ export async function fetchLogs(url, callback) {
   }
 }
 
-export const prettyPrint = (json, indent = 2) => {
+export const prettyPrint = (json, indent = 2, index = 0) => {
   if (Array.isArray(json)) {
-    return <>
-      {"[\n"}
-      {json.map((item) => <>
-        {"".padStart(indent, " ")}
-        {prettyPrint(item, indent + 2)}
-      </>).reduce((prev, curr) => prev === null ? [curr] : [prev, ',\n', curr], null)}
-      {"\n" + "".padEnd(indent - 2, " ") + "]"}
-    </>;
+    return [
+      "[\n",
+      ...json
+        .map((item, i) => (
+          <React.Fragment key={"item-" + i}>
+            {"".padStart(indent, " ")}
+            {prettyPrint(item, indent + 2)}
+          </React.Fragment>
+        ))
+        .reduce(
+          (prev, curr) => (prev === null ? [curr] : [prev, ",\n", curr]),
+          null
+        ),
+      "\n",
+      "".padEnd(indent - 2, " "),
+      "]",
+    ];
   } else if (typeof json === "object") {
-    return <>{"{\n"}
-      {Object.keys(json).map((key) => <>
-        {"".padStart(indent, " ")}
-        <span className="key">"{key}"</span>: {prettyPrint(json[key], indent + 2)}
-        {"\n"}
-      </>)}
-      {"".padStart(indent - 2, " ") + "}"}</>;
+    return [
+      "{\n",
+      ...Object.keys(json)
+        .map((key, i) => (
+          <React.Fragment key={"key-" + i}>
+            {"".padStart(indent, " ")}
+            <span key={"key-" + i} className="key">
+              "{key}"
+            </span>
+            : {prettyPrint(json[key], indent + 2, i)}
+          </React.Fragment>
+        ))
+        .reduce(
+          (prev, curr) => (prev === null ? [curr] : [prev, ",\n", curr]),
+          null
+        ),
+      "\n",
+      "".padEnd(indent - 2, " "),
+      "}",
+    ];
   } else {
-    return <span className={typeof json}>{typeof json === "string" ? `"${json.replaceAll("\n", "\\n")}"` : String(json)}</span>
+    return (
+      <span key={"value-" + index} className={typeof json}>
+        {typeof json === "string"
+          ? `"${json.replaceAll("\n", "\\n")}"`
+          : String(json)}
+      </span>
+    );
   }
 };
