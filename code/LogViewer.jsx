@@ -45,7 +45,7 @@ export const LogViewer = () => {
           return (
             <React.Fragment key={rowIndex}>
               <div className="row no-border">
-                <div className="caret" onClick={() => onToggleRow(i)}>
+                <div className="caret" onClick={() => onToggleRow(rowIndex)}>
                   <span className="open">&gt;</span>
                 </div>
                 <div>{new Date(log._time).toISOString()}</div>
@@ -57,7 +57,7 @@ export const LogViewer = () => {
         } else {
           return (
             <div className="row" key={rowIndex}>
-              <div className="caret" onClick={() => onToggleRow(i)}>
+              <div className="caret" onClick={() => onToggleRow(rowIndex)}>
                 &gt;
               </div>
               <div>{new Date(log._time).toISOString()}</div>
