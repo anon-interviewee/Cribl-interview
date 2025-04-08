@@ -28,6 +28,8 @@ export const LogViewer = () => {
     );
   }, []);
 
+  // Split up the rows over multiple grids to avoid having too many children in
+  // a single DOM element, which significantly affects performance.
   const chunked = useChunked(logs, CHUNK_SIZE);
 
   const renderChunk = (chunk, index) => {
