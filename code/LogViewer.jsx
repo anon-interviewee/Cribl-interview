@@ -1,5 +1,5 @@
 import * as React from "react";
-import { fetchLogs, prettyPrint } from "./utils.jsx";
+import { fetchLogs, prettyPrint, useChunked } from "./utils.jsx";
 
 const CHUNK_SIZE = 1000;
 
@@ -28,19 +28,7 @@ export const LogViewer = () => {
     );
   }, []);
 
-  // Divides logs into chunks for performance
-  const chunked = React.useMemo(() => {
-    const result = [];
-    for (var i = 0; i < logs.length; i += CHUNK_SIZE) {
-      result.push(logs.slice(i, i + CHUNK_SIZE));
-    }
-
-    if (i % CHUNK_SIZE !== 0) {
-      result.push(logs.slice(i));
-    }
-
-    return result;
-  }, [logs])
+  const chunked = useChunked(logs, CHUNK_SIZE);
 
   const renderChunk = (chunk, index) => {
     const startIndex = index * CHUNK_SIZE;

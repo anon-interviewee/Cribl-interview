@@ -1,6 +1,5 @@
-import fetch from 'isomorphic-fetch';
-import { render } from "@testing-library/react";
-import { fetchLogs, prettyPrint } from "./utils";
+import { render, renderHook } from "@testing-library/react";
+import { useChunked, prettyPrint } from "./utils";
 
 it("prints json with correct classes and indentation", () => {  
   const pretty = prettyPrint(
@@ -43,12 +42,15 @@ it("prints json with correct classes and indentation", () => {
 `);
 });
 
-it("Downloads the log in chunks correctly", async () => {
-  const url = "https://s3.amazonaws.com/io.cribl.c021.takehome/cribl.log";
-  
-  let expected = await (await fetch(url)).text();
-  let actual = '';
-  await fetchLogs(url, (data) => actualLogs += data);
+it("chunks the logs correctly", () => {
+  const data = (new Array(9842)).fill(0).map((_, i) => i);
 
-  expect(expected).toEqual(actual)
+  const chunked = renderHook(() => useChunked(data, 1000)).result.current;
+  const flat = chunked.flatMap((x) => x);
+
+  expect(chunked.length).toBe(10);
+  expect(chunked[chunked.length - 1].length).toBe(842);
+  expect(flat.length).toBe(9842);
+  expect(flat[0]).toBe(0);
+  expect(flat[flat.length - 1]).toBe(9841);
 })

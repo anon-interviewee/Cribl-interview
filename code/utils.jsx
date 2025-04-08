@@ -89,3 +89,19 @@ export const prettyPrint = (json, indent = 2, index = 0) => {
     );
   }
 };
+
+export function useChunked(logs, chunkSize) {
+  // Divides logs into chunks for performance
+  return React.useMemo(() => {
+    const result = [];
+    for (var i = 0; i < logs.length; i += chunkSize) {
+      result.push(logs.slice(i, i + chunkSize));
+    }
+
+    if (i % chunkSize !== 0) {
+      result.push(logs.slice(i));
+    }
+
+    return result;
+  }, [logs])
+}

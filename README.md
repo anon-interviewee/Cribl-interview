@@ -6,7 +6,7 @@ will allow you to expand the row to see the JSON in a more human-readable format
 
 # Design
 
-As an exercise, this application doesn't have a static build step while still using ES imports. This is done by 
+As an exercise, this application doesn't have a static build step while still using ES imports. This is done by
 using the features of babel standalone and a service worker to intercept requests to jsx files so they can be
 transpiled appropriately with appropriate MIME-type replaced in the response.
 
@@ -17,10 +17,10 @@ Virtualization isn't necessarily straightforward depending on what UX compromise
 
 Test can be run using `npm test`.
 
-Testing is limited to just making sure the pretty-printing function works as expected, as it was a somewhat complicated
-function. Given more time, I would have liked to include integration tests using something like cypress or puppeteer to
+Testing is limited to just making sure the pretty-printing and chunking functions work as expected. Given more time, 
+I would have liked to include integration tests using something like cypress or puppeteer to
 test that the fetchLogs function works as expected, and that the LogViewer component renders appropriately. If the function
 were refactored to not use code unavailable in NodeJS, then it could probably be tested with jest alone.
 
-The LogViewer component could also be tested using mocks with RTL, but rendering it into a full browser would just allow 
+The LogViewer component could also be tested using mocks with RTL, but rendering it into a full browser would just allow
 for more comprehensive testing.
